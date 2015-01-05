@@ -8,7 +8,6 @@ package com.jasonrboyer.passwordgenerator;
  *
  */
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -16,20 +15,23 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.border.LineBorder;
+import javax.swing.JTextField;
 
 
 public class BooleanPanel extends JPanel{
 
 	private Boolean firstRadio = false;
-	private JLabel panelTitle = null;
+	private JLabel panelTitle = null, countTitle = new JLabel("Amount: ");
 	private JRadioButton first = null, second = null;
 	private String firstLabel = null, secondLabel = null;
 	private ButtonGroup radioGroup = new ButtonGroup();
 	private GridBagConstraints layoutConstraints = new GridBagConstraints();
 	private RadioListener listening = new RadioListener();
+	private JTextField count = new JTextField("",5);
+	private int addOnCount = 0;
 	
 	/**
 	 * Default Constructor sets everything to indicate that there has been no setup completed.
@@ -68,6 +70,7 @@ public class BooleanPanel extends JPanel{
 	private void setUpPanel(){
 		
 		setLayout(new GridBagLayout());
+		count.addActionListener(new TextListener());
 		//Setup Radio buttons: Add to group, set action listener, set initial toggle value
 		radioGroup.add(first);
 		radioGroup.add(second);
@@ -99,17 +102,33 @@ public class BooleanPanel extends JPanel{
 		layoutConstraints.gridx=1;
 		this.add(second,layoutConstraints);
 		
+		//Add textbox label
+		layoutConstraints.gridx=2;
+		layoutConstraints.gridy=0;
+		this.add(countTitle,layoutConstraints);
+		
+		//Add textbox
+		layoutConstraints.gridx=2;
+		layoutConstraints.gridy=1;
+		this.add(count,layoutConstraints);
+		
 	}
 	
 	/**
 	 * Getter method firstRadio
-	 * @return rirst radio
+	 * @return first radio true means first radio button is toggled.
 	 */
 	public boolean getStatus(){
 		return firstRadio;
 	}
 	
-	
+	/**
+	 * Getter method addOnCount
+	 * @return the value of the addOnCount video
+	 */
+	public int getAddOnCount(){
+		return addOnCount;
+	}
 	/**
 	 * Listener for the radio button events
 	 */
@@ -122,6 +141,20 @@ public class BooleanPanel extends JPanel{
 				firstRadio=false;
 			}
 			
+		}
+		
+	}
+	
+	private class TextListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent textIn){
+			try{
+				addOnCount=Integer.parseInt(count.getText());
+			}
+			catch (NumberFormatException e){
+				JOptionPane.showMessageDialog(null, "Error: Input was not an integer");
+			}
+			count.setText("");
 		}
 		
 	}

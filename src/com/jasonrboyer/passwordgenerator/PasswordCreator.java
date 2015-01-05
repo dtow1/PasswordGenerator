@@ -121,7 +121,9 @@ public class PasswordCreator extends JPanel {
 	 * Method for randomly adding 1-3 random special characters
 	 */
 	private void addSpecialChars(){
-		int control = randNum.nextInt(3)+1;
+		
+		//int control = randNum.nextInt(3)+1;
+		int control = specChars.getAddOnCount();
 		for(int i =0;i<control;i++){
 			tempString.append(Character.toChars(randNum.nextInt(15)+32));
 		}
@@ -131,7 +133,7 @@ public class PasswordCreator extends JPanel {
 	 * Method for randomly adding 1-3 numbers
 	 */
 	private void addNumbers(){
-		int control = randNum.nextInt(3)+1;
+		int control = extraNums.getAddOnCount();
 		for(int i =0;i<control;i++){
 			tempString.append(randNum.nextInt(10));
 		}
